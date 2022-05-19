@@ -2,15 +2,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="./assets/styles/style.css">
+    <title>Weather</title>
+    <link rel="stylesheet" href="./assets/css/font-awesome-4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
 <div class="modal-bg">
-    <div class="modal"></div>
+    <div class="modal">
+        <div class="modal-header">
+            <div class="title">
+                <button id="close"><i class="fa fa-arrow-left" aria-hidden="true"></i></button>
+                Weather App
+            </div>
+        </div>
+        <div class="modal-main">
+            <div class="icon"><img src="./assets/icons/sun.png" alt="sun"></div>
+            <div class="temp celsius">13</div>
+            <div class="status">Sunny</div>
+            <div class="location"><i class="fa fa-map-marker" aria-hidden="true"></i><span
+                    id="location">Tehran, Iran</span>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="footer">
+                <div class="footer-img"><img src="./assets/icons/cold.png" alt="cold"></div>
+                <div class="footer-right">
+                    <div class="celsius">17</div>
+                    <div class="text">Feels like</div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="footer-img"><img src="./assets/icons/humidity.png" alt="humidity"></div>
+                <div class="footer-right">
+                    <div class="percent">80</div>
+                    <div class="text">Humidity</div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 <main>
-<div class="title">Weather App</div>
+    <div class="title">Weather App</div>
     <div class="main">
         <input id="city-name" class="inputs" type="text" placeholder="Enter city name">
         <div class="or">
@@ -18,7 +50,7 @@
             <span>or</span>
             <div class="line"></div>
         </div>
-        <button id="geo-name" class="inputs" >Get Device Location</button>
+        <button id="geo-name" class="inputs">Get Device Location</button>
     </div>
 </main>
 <script src="./assets/js/index.js"></script>
