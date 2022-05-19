@@ -43,7 +43,6 @@ function inputValidator(input) {
 
 function setData(data) {
     //Main pic
-    const photo = "./assets/icons/"
     const icon = document.getElementById("photo");
     switch (data.weather[0].main) {
         case `Rain`:
@@ -79,12 +78,13 @@ function setData(data) {
     console.log(data.main.feels_like);
     console.log(cels);
     document.getElementById("celsius").innerText = cels;
+    const dama = document.getElementById("dama");
     if (cels > 30) {
-        document.getElementById("dama").src = photo + "warm.png";
-    } else if (cels < 15) {
-        document.getElementById("dama").src = photo + "cold.png";
+        dama.src = "./assets/icons/warm.png";
+    } else if (cels < 20) {
+        dama.src = "./assets/icons/cold.png";
     } else {
-        document.getElementById("dama").src = photo + "normal.png";
+        dama.src = "./assets/icons/normal.png";
     }
 
     storeModal = modal.innerHTML;
