@@ -44,19 +44,23 @@ function inputValidator(input) {
 function setData(data) {
     //Main pic
     const photo = "./assets/icons/"
-    let icon = document.getElementById("icon");
+    const icon = document.getElementById("photo");
     switch (data.weather[0].main) {
         case `Rain`:
-            document.getElementById("photo").src = "./assets/icons/rainy.png";
+            icon.src = "./assets/icons/rainy.png";
+            icon.alt = "Rainy";
             break;
         case `Clouds`:
-            document.getElementById("photo").src = "./assets/icons/cloudy.png";
+            icon.src = "./assets/icons/cloudy.png";
+            icon.alt = "Clouds"
             break;
         case `Mist`:
-            document.getElementById("photo").src = "./assets/icons/cloud.png"
+            icon.src = "./assets/icons/cloud.png"
+            icon.alt = "Mist"
             break;
         default:
-            document.getElementById("photo").src = "./assets/icons/sun.png"
+            icon.src = "./assets/icons/sun.png"
+            icon.alt = "Sunny"
     }
     //Temp
     document.getElementById("temp").innerText = parseInt(data.main.temp) - 273;
