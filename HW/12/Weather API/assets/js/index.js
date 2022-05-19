@@ -44,19 +44,19 @@ function inputValidator(input) {
 function setData(data) {
     //Main pic
     const photo = "./assets/icons/"
-    const icon = document.getElementById("icon");
+    let icon = document.getElementById("icon");
     switch (data.weather[0].main) {
         case `Rain`:
-            icon.innerHTML = `<img src="./assets/icons/rainy.png" alt="rainy">`
+            document.getElementById("photo").src = "./assets/icons/rainy.png";
             break;
         case `Clouds`:
-            icon.innerHTML = `<img src="./assets/icons/cloudy.png" alt="cloudy">`
+            document.getElementById("photo").src = "./assets/icons/cloudy.png";
             break;
         case `Mist`:
-            icon.innerHTML = `<img src="./assets/icons/cloud.png" alt="Mist">`
+            document.getElementById("photo").src = "./assets/icons/cloud.png"
             break;
         default:
-            icon.innerHTML = `<img src="./assets/icons/sun.png" alt="sunny">`
+            document.getElementById("photo").src = "./assets/icons/sun.png"
     }
     //Temp
     document.getElementById("temp").innerText = parseInt(data.main.temp) - 273;
@@ -83,7 +83,7 @@ function setData(data) {
         document.getElementById("dama").src = photo + "normal.png";
     }
 
-
+    storeModal = modal.innerHTML;
     showModal();
 }
 
