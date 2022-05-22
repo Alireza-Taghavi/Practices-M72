@@ -1,0 +1,7 @@
+.card-body a{
+    color: black;
+    display: block;
+    font-style: normal;
+    text-decoration: none;
+    margin-bottom: 1rem;
+}
