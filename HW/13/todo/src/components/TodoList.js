@@ -40,9 +40,20 @@ function TodoList() {
     setTodos(updatedTodos);
   };
 
+  const randomHeader = () =>{
+    const headers = [
+        "Gonna do your first Push-up after 7 years?",
+        "Feelin' Productive today?",
+        "Hassani never went to Maktab",
+        "A list of things you will definitely do ;)",
+        "It's never soon to write a bucket-list"
+    ]
+    return headers[Math.floor(Math.random()*headers.length)];
+  }
+
   return (
     <>
-      <h1>What's the Plan for Today?</h1>
+      <h1>{randomHeader()}</h1>
       <TodoForm onSubmit={addTodo} />
       <Todo
         todos={todos}

@@ -128,7 +128,9 @@ geoInput.addEventListener("click", () => {
 close.addEventListener("click", () => {
     hideModal()
 })
-
+close.querySelector("i").addEventListener("click", () => {
+    hideModal()
+});
 modalBG.addEventListener("click", () => {
     hideModal()
 })
