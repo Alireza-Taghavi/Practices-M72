@@ -11,6 +11,9 @@ let storeModal;//Stores Modal for when Errors happen
 //Toggle Modal
 function showModal() {
     modalBG.style.display = "flex";
+    document.querySelector(".fa-arrow-left").addEventListener("click", () => {
+        hideModal()
+    });
 }
 
 function hideModal() {
@@ -128,9 +131,7 @@ geoInput.addEventListener("click", () => {
 close.addEventListener("click", () => {
     hideModal()
 })
-close.querySelector("i").addEventListener("click", () => {
-    hideModal()
-});
+
 modalBG.addEventListener("click", () => {
     hideModal()
 })
