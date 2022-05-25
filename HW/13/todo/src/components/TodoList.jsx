@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TodoForm from './TodoForm';
 import Todo from './Todo';
 
@@ -40,6 +40,8 @@ function TodoList() {
     setTodos(updatedTodos);
   };
 
+  const [title, setTitle] = useState('');
+
   const randomHeader = () =>{
     const headers = [
         "Gonna do your first Push-up after 7 years?",
@@ -50,10 +52,12 @@ function TodoList() {
     ]
     return headers[Math.floor(Math.random()*headers.length)];
   }
-
+    useEffect(() => {
+        setTitle(randomHeader())
+    },[])
   return (
     <>
-      <h1>{randomHeader()}</h1>
+      <h1>{title}</h1>
       <TodoForm onSubmit={addTodo} />
       <Todo
         todos={todos}
