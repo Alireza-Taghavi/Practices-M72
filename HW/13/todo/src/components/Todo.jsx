@@ -16,8 +16,11 @@ const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
       value: "",
     });
   };
+  if (edit.id) {
+    return <TodoForm edit={edit} onSubmit={submitUpdate} />;
+  }
   const rngNumber = () => {
-    return Math.floor(Math.random() * (220))
+    return Math.floor(Math.random() * (200))
   }
   const rngSmallerNumber = () => {
     return Math.floor(Math.random() * (35 - 10)) + 10
@@ -30,16 +33,11 @@ const Todo = ({ todos, completeTodo, removeTodo, updateTodo }) => {
     const rgba2 = `rgba(${r+rngSmallerNumber()},${g+rngSmallerNumber()},${b+rngSmallerNumber()},0.8)`
     return [rgba, rgba2]
 }
-
-  if (edit.id) {
-    return <TodoForm edit={edit} onSubmit={submitUpdate} />;
-  }
-
   return todos.map((todo, index) => (
     <div
       className={todo.isComplete ? "todo-row complete" : "todo-row"}
       key={index}
-      style={{background: `linear-gradient(90deg,${randomBG()[0]} 0%,${randomBG()[1]} 100%)`}}
+      style={{background: `linear-gradient(75deg,${randomBG()[0]} 0%,${randomBG()[1]} 100%)`}}
     >
       <div key={todo.id} onClick={() => completeTodo(todo.id)}>
         {todo.text}
