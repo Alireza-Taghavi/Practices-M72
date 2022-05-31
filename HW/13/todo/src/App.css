@@ -1,114 +1,135 @@
 * {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
     'Lucida Sans', Arial, sans-serif;
 }
-html, body{
-  width: 100%;
-  height: 100%;
-  overflow: auto;
+
+html, body {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
 }
+
 body {
-  background: linear-gradient( 25deg, rgb(197 24 133 / 77%) 0%, rgb(12 0 65) 100% );
-  display: flex;
-  justify-content: center;
-  align-items: start;
-  padding: 4rem;
+    background: linear-gradient(25deg, rgb(197 24 133 / 77%) 0%, rgb(12 0 65) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    padding: 4rem;
 }
+
 .todo-app {
-  display: flex;
-  flex-direction: column;
-  justify-content: start;
-  width: 520px;
-  min-height: 600px;
-  background: #161a2b;
-  text-align: center;
-  border-radius: 10px;
-  padding: 0 1rem 2rem 1rem;
-  margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    width: 520px;
+    min-height: 600px;
+    background: #161a2b;
+    text-align: center;
+    border-radius: 10px;
+    padding: 0 1rem 2rem 1rem;
+    margin-bottom: 2rem;
 }
 
 h1 {
-  margin: 3rem 0;
-  color: #fff;
-  font-size: 24px;
+    margin: 3rem 0;
+    color: #fff;
+    font-size: 24px;
 }
 
 .complete {
-  text-decoration: line-through;
-  opacity: 0.4;
+    text-decoration: line-through;
+    opacity: 0.4;
 }
 
 .todo-form {
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
 }
 
 .todo-input {
-  padding: 14px 32px 14px 16px;
-  border-radius: 4px 0 0 4px;
-  border: 2px solid #5d0cff;
-  outline: none;
-  width: 70%;
-  background: transparent;
-  color: #fff;
+    padding: 14px 32px 14px 16px;
+    border-radius: 4px 0 0 4px;
+    border: 2px solid #5d0cff;
+    outline: none;
+    width: 70%;
+    background: transparent;
+    color: #fff;
 }
 
 .todo-input::placeholder {
-  color: #e2e2e2;
+    color: #e2e2e2;
 }
 
 .todo-button {
-  width: 20%;
-  padding: 16px;
-  border: none;
-  border-radius: 0 4px 4px 0;
-  cursor: pointer;
-  outline: none;
-  background: linear-gradient(
-    90deg,
-    rgba(93, 12, 255, 1) 0%,
-    rgba(155, 0, 250, 1) 100%
-  );
-  color: #fff;
-  text-transform: capitalize;
+    width: 20%;
+    padding: 16px;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    outline: none;
+    background: linear-gradient(
+            90deg,
+            rgba(93, 12, 255, 1) 0%,
+            rgba(155, 0, 250, 1) 50%,
+            rgba(93, 12, 255, 1) 100%
+    );
+    color: #fff;
+    text-transform: capitalize;
 }
 
+.todo-button:hover {
+    background: linear-gradient(
+            90deg,
+            rgba(93, 12, 255, 1) 0%,
+            rgba(155, 0, 250, 1) 50%,
+            rgba(93, 12, 255, 1) 100%
+    );
+    animation: slidebg 8s linear infinite;
+}
+
+@keyframes slidebg {
+    to {
+        background-position: 20vw;
+    }
+}
+
+
 .todo-input.edit {
-  border: 2px solid #149fff;
+    border: 2px solid #149fff;
 }
 
 .todo-button.edit {
-  background: linear-gradient(
-    90deg,
-    rgba(20, 159, 255, 1) 0%,
-    rgba(17, 122, 255, 1) 100%
-  );
-  padding: 16px 22px;
+    background: linear-gradient(
+            90deg,
+            rgba(20, 159, 255, 1) 0%,
+            rgba(17, 122, 255, 1) 100%
+    );
+    padding: 16px 22px;
 }
 
 .todo-container {
-  display: flex;
-  flex-direction: row;
-  position: relative;
+    display: flex;
+    flex-direction: row;
+    position: relative;
 }
 
 .todo-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin: 0.6rem auto;
-  color: #fff;
-  /*background: linear-gradient(*/
-  /*  90deg,*/
-  /*  rgba(255, 118, 20, 1) 0%,*/
-  /*  rgba(255, 84, 17, 1) 100%*/
-  /*);*/
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0.6rem auto;
+    color: #fff;
+    /*background: linear-gradient(*/
+    /*  90deg,*/
+    /*  rgba(255, 118, 20, 1) 0%,*/
+    /*  rgba(255, 84, 17, 1) 100%*/
+    /*);*/
 
-  padding: 16px;
-  border-radius: 5px;
-  width: 90%;
+    padding: 16px;
+    border-radius: 5px;
+    width: 90%;
 }
 
 /*.todo-row:nth-child(4n + 1) {*/
@@ -136,17 +157,25 @@ h1 {
 /*}*/
 
 .icons {
-  display: flex;
-  align-items: center;
-  font-size: 24px;
-  cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    cursor: pointer;
 }
 
 .delete-icon {
-  margin-right: 5px;
-  color: #fff;
+    margin: 0 0.5rem;
+    color: #fff;
 }
 
 .edit-icon {
-  color: #fff;
+    color: #fff;
+}
+
+.edit-icon:hover, .delete-icon:hover, p:hover {
+    color: #c8c8c8;
+}
+
+p {
+    cursor: pointer;
 }
