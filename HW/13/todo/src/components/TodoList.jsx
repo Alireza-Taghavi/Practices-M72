@@ -1,9 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
-// import TodoForm from './TodoForm';
 import {TiEdit} from "react-icons/ti";
 import {RiCloseCircleLine} from "react-icons/ri";
-
-// import Todo from './Todo';
 
 
 function TodoList() {
