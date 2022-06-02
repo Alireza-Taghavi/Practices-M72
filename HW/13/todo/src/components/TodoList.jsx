@@ -127,7 +127,7 @@ function TodoList() {
                             ref={inputRef}
                         />
                         <button onClick={handleSubmit} className='todo-button'>
-                            Add todo
+                            Add Todo
                         </button>
                     </>
                 )}
