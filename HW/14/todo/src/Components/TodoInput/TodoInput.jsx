@@ -1,35 +1,29 @@
 import * as React from 'react';
 import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import "./TodoInput.css";
-export default function TodoInput() {
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const data = new FormData(event.currentTarget);
-        console.log({
-            todo: data.get('TodoInput'),
-        });
-    };
-    return(
-<>
-    <Box component="form" onSubmit={handleSubmit} noValidate sx={{ display:"flex" , flexDirection:"row", height:"4rem", width:"100%",}}>
-        <TextField
-            required
-            id="TodoInput"
-            label="Add Todo"
-            name="TodoInput"
-            autoFocus
-            sx={{height:"100%", width:"75%",}}
-        />
-        <Button
-            type="submit"
-            variant="contained"
-            sx={{height:"100%", width:"25%"}}
-        >
-            Sign In
-        </Button>
-    </Box>
-</>
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import {IconButton} from "@mui/material";
+
+export default function TodoInput(props) {
+
+    const SubmitButton = () => {
+        return (
+            <IconButton type="submit" color="primary" aria-label="add a todo" style={{height: "4rem", width: "4rem"}}
+                        onClick={props.submit}>
+                <AddCircleIcon fontSize="large"/>
+            </IconButton>
+        );
+    }
+    return (
+        <Box component="form" onSubmit={props.submit} autoComplete="off" sx={{width: "100%",}} >
+            <TextField
+                id="TodoInput"
+                label={props.label}
+                color={'primary'}
+                InputProps={{endAdornment: <SubmitButton/>}}
+                style={{width: "100%", paddingRight: "0"}}
+                className={"TodoInput"}
+            />
+        </Box>
     );
 }

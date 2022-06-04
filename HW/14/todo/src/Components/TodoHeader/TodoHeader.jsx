@@ -19,7 +19,7 @@ export default function TodoHeader() {
         setTitle(randomHeader())
     }, [])
 
-    return(
-        <Typography component="h1" variant="h5" fontWeight={"bold"}>{title}</Typography>
+    return (
+        <Typography component="h3" variant="h6" fontWeight={"bold"} textAlign={"center"}>{title}</Typography>
     );
 }
