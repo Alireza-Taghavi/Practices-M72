@@ -6,6 +6,7 @@ export default function TodoHeader() {
     const [title, setTitle] = useState('');
 
     const randomHeader = () => {
+        //List of random headers
         const headers = [
             "Gonna do your first Push-up after 7 years?",
             "Feelin' Productive today?",
@@ -20,6 +21,6 @@ export default function TodoHeader() {
     }, [])
 
     return (
-        <Typography component="h3" variant="h6" fontWeight={"bold"} textAlign={"center"}>{title}</Typography>
+        <Typography color={"white"} component="h3" variant="h6" fontWeight={"bold"} textAlign={"center"}>{title}</Typography>
     );
 }

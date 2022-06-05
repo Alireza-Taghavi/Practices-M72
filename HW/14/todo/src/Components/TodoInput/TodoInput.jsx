@@ -21,10 +21,11 @@ export default function TodoInput(props) {
             <TextField
                 id="TodoInput"
                 label={props.label}
-                color={'primary'}
+                color="primary"
                 InputProps={{endAdornment: <SubmitButton/>}}
                 style={{width: "100%", paddingRight: "0"}}
                 className={"TodoInput"}
+                focused
             />
         </Box>
     );

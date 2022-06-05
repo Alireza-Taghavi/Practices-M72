@@ -21,7 +21,6 @@ export default function TodoApp() {
         localStorage.setItem("todos", JSON.stringify(todos));
     }, [todos]);
 
-
     const addTodo = todo => {
         if (!todo || /^\s*$/.test(todo)) {
             return;
@@ -31,11 +30,13 @@ export default function TodoApp() {
 
         setTodos(newTodos);
     };
-
     const removeTodo = id => {
         const removedArr = [...todos].filter(todo => todo.id !== id);
-
         setTodos(removedArr);
+        setEdit({
+            id: null,
+            value: "",
+        });
     };
     const completeTodo = id => {
         let updatedTodos = todos.map(todo => {
@@ -53,35 +54,27 @@ export default function TodoApp() {
         value: "",
     });
     const updateTodo = (todoId, newValue) => {
-        if (!!newValue.task) {
-            // console.log(newValue)
-            // const index = todos.findIndex(item=>item.id === todoId);
-            // console.log(index);
-            // const copyTodos = [...todos];
-            // console.log(copyTodos);
-            // copyTodos[index] = newValue;
-            // setTodos(copyTodos)
-            setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)));
-            setEdit({
-                id: null,
-                value: "",
-            });
+        if (!newValue.task || /^\s*$/.test(newValue.task)) {
+            return
         }
+        setTodos(prev => prev.map(item => (item.id === todoId ? newValue : item)));
+        setEdit({
+            id: null,
+            value: "",
+        });
     };
     const handleSubmit = (event) => {
         event.preventDefault();
         const input = event.target.previousSibling;
         console.log(input.value);
-        if (!edit.id){
+        if (!edit.id) {
             addTodo({
                 task: input.value,
                 isComplete: false,
                 id: uuid(input.value),
                 bg: randomBG()
-
             });
-        }
-        else {
+        } else {
             updateTodo(edit.id, {
                 id: edit.id,
                 isComplete: false,
@@ -91,13 +84,7 @@ export default function TodoApp() {
         }
         input.value = "";
     };
-    // const submitUpdate = (value) => {
-    //     updateTodo(edit.id, value);
-    //     setEdit({
-    //         id: null,
-    //         value: "",
-    //     });
-    // };
+
     //Random background generator
     const rngNumber = () => {
         return Math.floor(Math.random() * (255))
@@ -125,17 +112,17 @@ export default function TodoApp() {
             display: "flex",
             flexDirection: "column",
             width: "30%",
-            border: 4,
-            borderColor: 'primary.main',
             justifyContent: "start",
             alignItems: "center",
             p: "3rem",
-            borderRadius: "1rem",
-            gap: "2rem"
+            borderRadius:1,
+            gap: "2rem",
+            background: "#161a2b",
         }}>
             <TodoHeader/>
 
-            <TodoInput submit={handleSubmit} label={edit.id ? `edit "${edit.value}"` : "Add something"} isEditing={!!edit.id}/>
+            <TodoInput submit={handleSubmit} label={edit.id ? `edit "${edit.value}"` : "Add something"}
+                       isEditing={!!edit.id}/>
 
             <TodoList
                 todos={todos}

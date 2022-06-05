@@ -5,7 +5,13 @@ body {
     sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    background: rgb(38, 35, 35);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    overflow-y: auto;
+
 }
+
 
 code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
@@ -22,4 +28,7 @@ html, body, #root {
 
 .TodoInput div {
     padding-right: 0;
+}
+input, span{
+    color: #fff;
 }
