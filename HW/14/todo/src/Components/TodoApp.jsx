@@ -2,10 +2,25 @@ import * as React from 'react';
 import TodoHeader from './TodoHeader/TodoHeader';
 import TodoInput from "./TodoInput/TodoInput";
 import Box from "@mui/material/Box";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import uuid from "react-uuid";
 
 export default function TodoApp() {
-    const [todos, setTodos] = useState([]);
+    //Get todos from local storage - dependency is a function, so it only calls the local storage once
+    const [todos, setTodos] = useState(() => {
+        const savedTodos = localStorage.getItem("todos");
+        if (savedTodos) {
+            return JSON.parse(savedTodos);
+        } else {
+            return [];
+        }
+    });
+    //Store todos in local storage
+    useEffect(() => {
+        localStorage.setItem("todos", JSON.stringify(todos));
+    }, [todos]);
+
+
     const addTodo = todo => {
         if (!todo || /^\s*$/.test(todo)) {
             return;
@@ -16,16 +31,44 @@ export default function TodoApp() {
         setTodos(newTodos);
         console.log((todos));
     };
+
+    //Random background generator
+    const rngNumber = () => {
+        return Math.floor(Math.random() * (255))
+    }
+    const rngSmallerNumber = () => {
+        return Math.floor(Math.random() * (100))
+    }
+    const randomBG = () => {
+        let r = rngNumber()
+        let g = rngNumber()
+        let b = rngNumber()
+        while ((r + g + b) > 510) {
+            r = rngNumber()
+            g = rngNumber()
+            b = rngNumber()
+        }
+        const rgba = `rgba(${r},${g},${b},0.8)`
+        const rgba2 = `rgba(${r + rngSmallerNumber()},${g + rngSmallerNumber()},${b + rngSmallerNumber()},0.8)`
+        return [rgba, rgba2]
+    }
+
+
     const handleSubmit = (event) => {
         event.preventDefault();
         const input = event.target.previousSibling;
         console.log(input.value);
-        addTodo(input.value);
+        addTodo({
+           task: input.value,
+            isComplete: false,
+            id: uuid(),
+            bg: randomBG()
+
+        });
 
         input.value = "";
     };
     return (
-        <Box style={{display: "flex", justifyContent: "center", marginTop: "5rem",}}>
             <Box sx={{
                 display: "flex",
                 flexDirection: "column",
@@ -41,6 +84,5 @@ export default function TodoApp() {
                 <TodoHeader/>
                 <TodoInput submit={handleSubmit} label={"add something"}/>
             </Box>
-        </Box>
     );
 }
