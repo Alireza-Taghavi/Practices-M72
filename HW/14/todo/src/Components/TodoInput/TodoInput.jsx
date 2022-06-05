@@ -3,14 +3,16 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import AddCircleIcon from '@mui/icons-material/AddCircle';
 import {IconButton} from "@mui/material";
-
+import EditIcon from '@mui/icons-material/Edit';
 export default function TodoInput(props) {
 
     const SubmitButton = () => {
         return (
             <IconButton type="submit" color="primary" aria-label="add a todo" style={{height: "4rem", width: "4rem"}}
                         onClick={props.submit}>
-                <AddCircleIcon fontSize="large"/>
+                {
+                    props.isEditing ? <EditIcon fontSize="large"/> : <AddCircleIcon fontSize="large"/>
+                }
             </IconButton>
         );
     }
