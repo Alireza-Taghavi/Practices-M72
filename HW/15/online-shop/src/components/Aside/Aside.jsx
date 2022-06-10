@@ -19,12 +19,11 @@ export default function Aside(){
                 height:"auto",
                 padding:"10px",
                 flexShrink: 0,
-                background:"#203040",
             }}
         >
-            <Box sx={{ overflow: 'auto' }}>
+            <Box sx={{ width:"350px", borderBottom:"1px solid silver" }}>
                 <Typography>
-                    Aside
+                    Cart is Empty
                 </Typography>
             </Box>
         </Box>
