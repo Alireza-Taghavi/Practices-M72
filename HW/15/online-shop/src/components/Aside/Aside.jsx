@@ -11,21 +11,22 @@ import {
 } from "@mui/material";
 import Toolbar from "@mui/material/Toolbar";
 
-export default function Aside(){
-    return(
-        <Box
-            anchor="right"
-            sx={{zIndex:"-1",
-                height:"auto",
-                padding:"10px",
+export default function Aside() {
+    return (
+            <Box sx={{
+                zIndex: "-1",
                 flexShrink: 0,
-            }}
-        >
-            <Box sx={{ width:"350px", borderBottom:"1px solid silver" }}>
-                <Typography>
+                width: "350px",
+                borderBottom: "1px solid silver",
+                height: "60px",
+                display: "flex",
+                justifyContent: "center",
+                alignContent: "center",
+                justifySelf:"center"
+            }}>
+                <Typography sx={{display: "flex", justifyContent: "center", alignItems: "center"}}>
                     Cart is Empty
                 </Typography>
             </Box>
-        </Box>
     )
 }
