@@ -1,12 +1,18 @@
 import React from "react";
 import {Box, Typography} from "@mui/material";
+import BuyButton from "../../BuyButton/BuyButton";
 
 export default function Item(props) {
     const item = props.item;
+    const addOrders = props.addOrders;
+    const click = () =>{
+        props.handleOpen();
+        props.handleModal(item);
+    }
     return (
 
 
-        <Box sx={{
+        <Box onClick={click} sx={{
             height: "470px",
             width: "300px",
             display: "flex",
@@ -36,15 +42,7 @@ export default function Item(props) {
                 width: "90%"
             }}>
                 <Typography>${item.price}</Typography>
-                <button key={item.id} style={{
-                    padding: "12px 18px",
-                    backgroundColor: "#f0c041",
-                    color: "#000",
-                    outline: "none",
-                    border: "none",
-                    cursor: "pointer"
-                }}>Add to Card
-                </button>
+                <BuyButton handleClose={()=>{}} addOrders={addOrders} item={item}/>
             </Box>
         </Box>
     )

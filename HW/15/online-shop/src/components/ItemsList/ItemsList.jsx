@@ -3,7 +3,7 @@ import React from "react";
 import Item from "./Items/Item";
 import data from "../../data.json"
 
-export default function ItemsList() {
+export default function ItemsList({handleOpen, handleModal, addOrders}) {
     const [order, setOrder] = React.useState('lowest');
     const handleChangeOrder = (event) => {
         setOrder(event.target.value);
@@ -14,14 +14,25 @@ export default function ItemsList() {
     };
     let sizes = [];
     // get all the sizes from data
-    data.forEach(item => {item.size.forEach(size => {if (!sizes.includes(size)) sizes.push(size)})});
+    data.forEach(item => {
+        item.size.forEach(size => {
+            if (!sizes.includes(size)) sizes.push(size)
+        })
+    });
     // sort the sizes
     sizes.sort((a, b) => a.charCodeAt(a.length - 1) - b.charCodeAt(b.length - 1));
     // put All first
     sizes = sizes.filter(item => item !== "ALL");
     sizes.unshift("ALL");
-    return (
 
+    const filteredData = data.filter(item => {
+        if (filter === 'ALL') return true;
+        return item.size.includes(filter)
+    }).sort((a, b) => {
+        if (order === 'lowest') return a.price - b.price;
+        return b.price - a.price;
+    })
+    return (
         <Box sx={{display: "flex", flexDirection: "column", maxWidth: "980px", alignItems: "center"}}>
             <Box sx={{
                 display: "flex", flexDirection: "row", justifyContent: "space-between", bgcolor: 'background.paper',
@@ -32,7 +43,7 @@ export default function ItemsList() {
 
             }}>
                 <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", justifyContent: "center"}}>
-                    <Typography>6 Products</Typography>
+                    <Typography>{filteredData.length} Products</Typography>
                 </Box>
                 <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", gap: "0.5rem"}}>
                     <Typography>Order</Typography>
@@ -75,15 +86,9 @@ export default function ItemsList() {
                 justifyContent: "center",
             }}>
                 {
-                    data.filter(item => {
-                        if (filter === 'ALL') return true;
-                        return item.size.includes(filter)
-                    }).sort((a, b) => {
-                        if (order === 'lowest') return a.price - b.price;
-                        return b.price - a.price;
-                    }).map((item, index) => {
-                        return <Item key={index} item={item}/>
-                    })
+                    filteredData.map((item, index) => {
+                    return <Item handleOpen={handleOpen} handleModal={handleModal} key={index} item={item} addOrders={addOrders}/>
+                })
                 }
             </Box>
         </Box>

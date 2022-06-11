@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 
 export default function Header() {
     return (
-        <AppBar position="fixed" sx={{background:"#203040", zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+        <AppBar position="fixed" sx={{background:"#203040", zIndex: 99 }}>
             <Toolbar sx={{paddingLeft:"10px !important"}}>
                 <Typography variant="h7" color="inherit" fontSize={17}>
                     React Shopping Cart
