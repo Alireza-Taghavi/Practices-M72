@@ -1,25 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
+import Main from "./components/Main";
+import React from 'react';
+import {Routes, Route} from 'react-router-dom';
+import Test from "./components/Test";
+import Context from "./context/Context";
+import FormikTest from "./components/FormikTest";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+const [state, setState] = React.useState(
+    ""
+);
+
+
+    return (
+        // <Context.Provider value={{state, setState}}>
+        //     <Routes>
+        //         <Route path="/" element={<Main/>}/>
+        //         <Route path="/Test/:id" element={<Test/>}/>
+        //     </Routes>
+        // </Context.Provider>
+        <FormikTest/>
+    );
 }
 
 export default App;
