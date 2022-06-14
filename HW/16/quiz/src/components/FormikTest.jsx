@@ -29,8 +29,8 @@ export default function FormikTest() {
 return (
     <>
     <div>
-        <label>name</label>
-        <input onChange={formik.handleChange} value={formik.values.name} type="text" name="name" />
+        <label className="underline">name</label>
+        <input  onChange={formik.handleChange} value={formik.values.name} type="text" name="name" />
         <label>email</label>
         <input onChange={formik.handleChange} value={formik.values.email} type="email" name="email" />
         <label>password</label>
