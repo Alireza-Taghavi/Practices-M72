@@ -13,8 +13,6 @@ export default function Home() {
     const [difficultyValue, setDifficultyValue] = React.useState(difficulty[0].label);
 
     const [questions, setQuestions] = React.useState([]);
-    const [selectedQuestions, setSelectedQuestions] = React.useState([]);
-    const [selectedQuestionsId, setSelectedQuestionsId] = React.useState([]);
 
     const handleNumberOfQuestions = (e) => {
         setNumberOfQuestions(e.target.value);
@@ -54,14 +52,14 @@ export default function Home() {
         if (categoryValue.length === 1) {
             URL += `&category=${categoryValue[0].id}`;
         } else if (categoryValue.length > 1) {
-            multipleCatgs();
+            const nmb = numberOfQuestions;
+            const len = categoryValue.length;
+            multipleCatgs({nmb, len});
             return;
         }
         if (difficultyValue !== "Any Type") {
             URL += `&difficulty=${difficultyValue.toLocaleLowerCase()}`;
-
         }
-        console.log(URL);
         fetchQuestions(URL)
 
     }
@@ -69,27 +67,33 @@ export default function Home() {
         axios.get(URL)
             .then(res => {
                 setQuestions(res.data.results);
-                console.log(questions);
             }).catch(err => {
             console.log(err);
         })
     }
-    const multipleCatgs = async () => {
-        const divide = (numberOfQuestions / categoryValue.length);
-        let remaining = numberOfQuestions  % categoryValue.length;
+    const multipleCatgs = async ({nmb, len}) => {
+        const divide = parseInt(nmb / len);
+        let remaining = parseInt(nmb % len);
         let newArr = [];
-        newArr =  categoryValue.map(async category => {
-             await axios.get(`https://opentdb.com/api.php?amount=${(divide)}&type=multiple&category=${category.id}`)
+        let diff = "";
+        if (difficultyValue !== "Any Type") {
+            diff = `&difficulty=${difficultyValue.toLocaleLowerCase()}`;
+        }
+        categoryValue.map(async category => {
+            const test = remaining;
+            remaining = 0;
+            await axios.get(`https://opentdb.com/api.php?amount=${(divide) + test}&type=multiple&category=${category.id}` + diff)
                 .then(res => {
-                     return (newArr.push(res.data.results));
+                    res.data.results.forEach(question => {
+                        newArr.push(question);
+                    })
+                }).catch(err => {
+                    console.log(err);
                 })
-
-        })
-        await Promise.all(newArr).then(res => {
-            setQuestions(res);
-            console.log(questions);
         })
 
+        const shuffled = await shuffle(newArr);
+        await setQuestions(shuffled);
     }
 
     function shuffle(array) {
@@ -110,10 +114,10 @@ export default function Home() {
         return array;
     }
 
-    const inputClasses = "flex items-end gap-4 w-full w-full p-1 border border-gray-300 rounded-lg mb-2 h-10 ";
-    const labelClasses = "font-bold text-white-100 text-l";
+    const inputClasses = "flex text-black items-end gap-4 w-full w-full p-1 border border-gray-300 rounded-lg mb-2 h-10 ";
+    const labelClasses = "font-bold text-black-100 text-l";
     return (
-        <div className="min-h-full flex items-center bg-white-50 justify-center py-12 px-4 sm:px-8 lg:px-8">
+        <div className="min-h-full flex items-center bg-white-50 justify-center py-12 px-4 sm:px-2 lg:px-8">
             <div
                 className="flex flex-col gap-5 bg-purple-100 text-white-100 rounded w-9-12 sm:w-9/12 md:w-96 drop-shadow-md py-8 px-6">
                 <h1 className="flex justify-center items-start font-bold  text-white-100 text-2xl mb-5">
