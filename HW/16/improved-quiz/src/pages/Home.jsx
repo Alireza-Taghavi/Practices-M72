@@ -1,8 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import axios from "axios";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
-
+import {useNavigate} from "react-router-dom";
+import Context from "../context/Context";
 const animatedComponents = makeAnimated();
 export default function Home() {
     const [numberOfQuestions, setNumberOfQuestions] = React.useState(10);
@@ -11,8 +12,6 @@ export default function Home() {
 
     const [categoryValue, setCategoryValue] = React.useState([]);
     const [difficultyValue, setDifficultyValue] = React.useState(difficulty[0].label);
-
-    const [questions, setQuestions] = React.useState([]);
 
     const handleNumberOfQuestions = (e) => {
         setNumberOfQuestions(e.target.value);
@@ -39,7 +38,7 @@ export default function Home() {
     const handleDifficulty = (e) => {
         setDifficultyValue(e.label);
     }
-    const handleSubmit = (e) => {
+    const handleSubmit = () => {
         console.log({numberOfQuestions, categoryValue, difficultyValue});
         if (numberOfQuestions < 2 || numberOfQuestions > 50) {
             alert("Please enter a number between 2 and 50");
@@ -66,7 +65,9 @@ export default function Home() {
     const fetchQuestions = async (URL) => {
         axios.get(URL)
             .then(res => {
-                setQuestions(res.data.results);
+                setQuiz(res.data.results);
+                navigateToQuestions();
+
             }).catch(err => {
             console.log(err);
         })
@@ -93,9 +94,11 @@ export default function Home() {
         })
 
         const shuffled = await shuffle(newArr);
-        await setQuestions(shuffled);
+        await setQuiz(shuffled);
+        await navigateToQuestions();
     }
 
+    //shuffle array function
     function shuffle(array) {
         let currentIndex = array.length, randomIndex;
 
@@ -110,16 +113,20 @@ export default function Home() {
             [array[currentIndex], array[randomIndex]] = [
                 array[randomIndex], array[currentIndex]];
         }
-
         return array;
+    }
+
+    const {quiz, setQuiz} = useContext(Context);
+    //navigate to questions page
+    const navigate = useNavigate();
+    const navigateToQuestions = () => {
+        navigate("/Questions");
     }
 
     const inputClasses = "flex text-black items-end gap-4 w-full w-full p-1 border border-gray-300 rounded-lg mb-2 h-10 ";
     const labelClasses = "font-bold text-black-100 text-l";
     return (
-        <div className="min-h-full flex items-center bg-white-50 justify-center py-12 px-4 sm:px-2 lg:px-8">
-            <div
-                className="flex flex-col gap-5 bg-purple-100 text-white-100 rounded w-9-12 sm:w-9/12 md:w-96 drop-shadow-md py-8 px-6">
+            <div className="flex flex-col gap-5 bg-purple-100 text-white-100 rounded w-9-12 sm:w-9/12 md:w-96 drop-shadow-md py-8 px-6">
                 <h1 className="flex justify-center items-start font-bold  text-white-100 text-2xl mb-5">
                     Setup Quiz
                 </h1>
@@ -147,6 +154,7 @@ export default function Home() {
                         className="w-full bg-green-500 text-black p-2 mt-2 hover:bg-beige-100">Start
                     Quiz
                 </button>
-            </div>
-        </div>)
+                <button onClick={()=>{setQuiz([...quiz, 1])}}>test</button>
+        </div>
+            );
 }
