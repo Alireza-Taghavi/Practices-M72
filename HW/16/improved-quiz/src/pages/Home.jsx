@@ -66,6 +66,7 @@ export default function Home() {
         axios.get(URL)
             .then(res => {
                 setQuiz(res.data.results);
+                console.log(quiz);
                 navigateToQuestions();
 
             }).catch(err => {
@@ -94,8 +95,11 @@ export default function Home() {
         })
 
         const shuffled = await shuffle(newArr);
-        await setQuiz(shuffled);
-        await navigateToQuestions();
+        await multiSender(shuffled);
+    }
+    function multiSender(arr) {
+        setQuiz(arr);
+        navigateToQuestions();
     }
 
     //shuffle array function
@@ -120,6 +124,7 @@ export default function Home() {
     //navigate to questions page
     const navigate = useNavigate();
     const navigateToQuestions = () => {
+        console.log(quiz);
         navigate("/Questions");
     }
 
@@ -154,7 +159,6 @@ export default function Home() {
                         className="w-full bg-green-500 text-black p-2 mt-2 hover:bg-beige-100">Start
                     Quiz
                 </button>
-                <button onClick={()=>{setQuiz([...quiz, 1])}}>test</button>
         </div>
             );
 }
