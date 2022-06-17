@@ -4,8 +4,16 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import {useNavigate} from "react-router-dom";
 import Context from "../context/Context";
+
 const animatedComponents = makeAnimated();
 export default function Home() {
+    //navigate to questions page
+    const navigate = useNavigate();
+    const navigateToQuestions = () => {
+        navigate("/Questions");
+    }
+
+
     const [numberOfQuestions, setNumberOfQuestions] = React.useState(10);
     const [category, setCategory] = React.useState([]);
     const difficulty = [{label: "Any Type"}, {label: "Easy"}, {label: "Medium"}, {label: "Hard"}];
@@ -66,7 +74,6 @@ export default function Home() {
         axios.get(URL)
             .then(res => {
                 setQuiz(res.data.results);
-                console.log(quiz);
                 navigateToQuestions();
 
             }).catch(err => {
@@ -76,7 +83,7 @@ export default function Home() {
     const multipleCatgs = async ({nmb, len}) => {
         const divide = parseInt(nmb / len);
         let remaining = parseInt(nmb % len);
-        let newArr = [];
+        let newArr = [1];
         let diff = "";
         if (difficultyValue !== "Any Type") {
             diff = `&difficulty=${difficultyValue.toLocaleLowerCase()}`;
@@ -84,22 +91,24 @@ export default function Home() {
         categoryValue.map(async category => {
             const test = remaining;
             remaining = 0;
-            await axios.get(`https://opentdb.com/api.php?amount=${(divide) + test}&type=multiple&category=${category.id}` + diff)
-                .then(res => {
-                    res.data.results.forEach(question => {
-                        newArr.push(question);
-                    })
-                }).catch(err => {
-                    console.log(err);
-                })
+            const response = await axios.get(`https://opentdb.com/api.php?amount=${(divide) + test}&type=multiple&category=${category.id}` + diff)
+            const res = await response.data.results;
+            res.forEach(question => {
+                newArr.push(question);
+            })
+            // .then(res => {
+            //     res.data.results.forEach(question => {
+            //         newArr.push(question);
+            //     })
+            // }).catch(err => {
+            //     console.log(err);
+            // })
         })
 
-        const shuffled = await shuffle(newArr);
-        await multiSender(shuffled);
-    }
-    function multiSender(arr) {
-        setQuiz(arr);
-        navigateToQuestions();
+        // const shuffled = await shuffle(newArr);
+        await setQuiz(newArr);
+        // navigate("/Questions", {state: {quiz: shuffled}});
+        await navigateToQuestions();
     }
 
     //shuffle array function
@@ -121,33 +130,35 @@ export default function Home() {
     }
 
     const {quiz, setQuiz} = useContext(Context);
-    //navigate to questions page
-    const navigate = useNavigate();
-    const navigateToQuestions = () => {
-        console.log(quiz);
-        navigate("/Questions");
-    }
 
-    const inputClasses = "flex text-black items-end gap-4 w-full w-full p-1 border border-gray-300 rounded-lg mb-2 h-10 ";
-    const labelClasses = "font-bold text-black-100 text-l";
+
+    const inputClasses = "flex text-black items-end gap-4 w-full w-full p-1 border border-gray-300 rounded h-10 px-2 focus:outline-none focus:border-blue-500 focus:border-2 focus:shadow-outline-blue";
+    const labelClasses = " text-black-100 font-semibold text-l antialiased hover:subpixel-antialiased";
     return (
-            <div className="flex flex-col gap-5 bg-purple-100 text-white-100 rounded w-9-12 sm:w-9/12 md:w-96 drop-shadow-md py-8 px-6">
-                <h1 className="flex justify-center items-start font-bold  text-white-100 text-2xl mb-5">
-                    Setup Quiz
-                </h1>
+        <div
+            className="flex flex-col gap-4 bg-secondary-50 text-white-100 rounded w-9-12 sm:w-9/12 md:w-96 drop-shadow-md py-8 px-6">
+            <h1 className="flex justify-center  items-start font-medium text-slate-900 text-2xl mb-5">
+                Setup Quiz
+            </h1>
 
+            <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-3">
                     <label htmlFor="number-input" className={labelClasses}>Number of Questions</label>
                     <input type="number" min={2} max={50} value={numberOfQuestions} id="number-input"
                            onChange={handleNumberOfQuestions} className={inputClasses} placeholder={10}/>
+                </div>
+                <div className="flex flex-col gap-3">
                     <label htmlFor="category-input" className={labelClasses}>Category</label>
-                    <Select closeMenuOnSelect={false}
+                    <Select closeMenuOnSelect={true}
                             components={animatedComponents}
                             defaultValue={[]}
-                            isMulti
+                        // isMulti
+                            isClearable
                             options={category}
                             onChange={handleCategory}
                     />
+                </div>
+                <div className="flex flex-col gap-3">
                     <label htmlFor="difficulty-input" className={labelClasses}>Difficulty</label>
                     <Select closeMenuOnSelect={true}
                             defaultValue={difficulty[0]}
@@ -155,10 +166,11 @@ export default function Home() {
                             onChange={handleDifficulty}
                     />
                 </div>
-                <button onClick={handleSubmit}
-                        className="w-full bg-green-500 text-black p-2 mt-2 hover:bg-beige-100">Start
-                    Quiz
-                </button>
+            </div>
+            <button onClick={handleSubmit}
+                    className="w-full mt-5 h-10 px-6 font-semibold bg-primary-700 hover:bg-primary-800 active:bg-primary-600 rounded border border-slate-200 text-white ">Start
+                Quiz
+            </button>
         </div>
-            );
+    );
 }

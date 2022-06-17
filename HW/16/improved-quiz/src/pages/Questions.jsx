@@ -21,20 +21,20 @@ export default function Questions() {
         , [quiz]);
 
     useEffect(() => {
-            if ((currentQuestionIndex +1 ) === quiz.length) {
-                navigate("/", {});
-            console.log(correctAnswers);
+            if ((currentQuestionIndex) === quiz.length) {
+                navigate("/Result", {});
+                console.log(correctAnswers);
             }
         }
-        , [currentQuestionIndex, quiz, navigate]);
+        , [currentQuestionIndex]);
     useEffect(() => {
             const newAnswers = [];
             newAnswers.push(
                 {
-                    text: quiz[currentQuestionIndex].correct_answer,
+                    text: quiz[currentQuestionIndex]?.correct_answer,
                     isCorrect: true
                 });
-            (quiz[currentQuestionIndex].incorrect_answers.map(incorrectAnswer => {
+            (quiz[currentQuestionIndex]?.incorrect_answers.map(incorrectAnswer => {
                 newAnswers.push({
                     text: incorrectAnswer,
                     isCorrect: false
@@ -56,28 +56,32 @@ export default function Questions() {
         setCurrentQuestionIndex(currentQuestionIndex + 1);
     }
 
+    const [selectedQuestion, setSelectedQuestion] = React.useState({});
+    useEffect(() => {
+            const newSelectedQuestion = quiz[currentQuestionIndex];
+            newSelectedQuestion.question = newSelectedQuestion?.question.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+            setSelectedQuestion(newSelectedQuestion);
+
+        }
+        , [quiz, currentQuestionIndex, setSelectedQuestion]);
+
     return (
-        <div className="container flex flex-col justify-center items-start gap-4">
-            {console.log(quiz)}
-            {console.log(currentQuestionIndex)}
-            {console.log(quiz[currentQuestionIndex])}
-            <h1 className="text-secondary-100">Questions</h1>
-            <p>{currentQuestionIndex + 1 }</p>
-            <h3>{quiz[currentQuestionIndex].category}</h3>
-            <h3>{quiz[currentQuestionIndex].question}</h3>
-            <div className="flex flex-row gap-4">
-                {console.log(answers)}
-                {answers.map(answer => {
+        <div className="container  bg-secondary-50 flex flex-col justify-center gap-6 rounded items-start py-10 px-8 sm:w-9/12 md:w-96">
+            <h3 className="font-semibold"><b>Genre: </b><br/>{selectedQuestion?.category}</h3>
+            <h3 className="font-semibold"><b>Question: {currentQuestionIndex + 1}</b><br/>{selectedQuestion?.question}</h3>
+            <div className=" gap-2 w-full grid grid-cols-2">
+                {answers?.map(answer => {
+
                     return (
-                        <div  className="flex justify-center items-center">
-                            <button className="text-black-100 text-l" onClick={() => {
-                                handleAnswer(answer)
-                            }
-                            }>{answer.text}</button>
+                        <div  className="flex justify-center text-center p-4 items-center bg-primary-600 hover:bg-primary-700 active:bg-secondary-700 text-white rounded font-semi-bold cursor-pointer"
+                              onClick={() => {
+                                  handleAnswer(answer)}
+                              }
+                        ><p>{answer.text.replace(/&quot;/g, '"').replace(/&#039;/g, "'")}</p>
                         </div>
                     )
                 })}
             </div>
-        </div>
-            );
-            }
+            </div>
+    );
+}
