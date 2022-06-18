@@ -23,7 +23,6 @@ export default function Questions() {
     useEffect(() => {
             if ((currentQuestionIndex) === quiz.length) {
                 navigate("/Result", {});
-                console.log(correctAnswers);
             }
         }
         , [currentQuestionIndex]);
@@ -50,38 +49,50 @@ export default function Questions() {
     }
 
     function handleAnswer(answer) {
+        const index = currentQuestionIndex;
+
+
         if (answer.isCorrect) {
             addCorrectAnswer();
         }
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-    }
-
-    const [selectedQuestion, setSelectedQuestion] = React.useState({});
-    useEffect(() => {
-            const newSelectedQuestion = quiz[currentQuestionIndex];
-            newSelectedQuestion.question = newSelectedQuestion?.question.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
-            setSelectedQuestion(newSelectedQuestion);
+        if (index < quiz.length - 1) {
+            setCurrentQuestionIndex(index + 1);
+        }
+        else {
+         navigate("/Result", {state: {correctAnswer: correctAnswers, quizLength: quiz.length}});
 
         }
-        , [quiz, currentQuestionIndex, setSelectedQuestion]);
+    }
+        const [selectedQuestion, setSelectedQuestion] = React.useState({});
+        useEffect(() => {
+                const newSelectedQuestion = quiz[currentQuestionIndex];
+                newSelectedQuestion.question = newSelectedQuestion?.question.replace(/&quot;/g, '"').replace(/&#039;/g, "'");
+                setSelectedQuestion(newSelectedQuestion);
 
-    return (
-        <div className="container  bg-secondary-50 flex flex-col justify-center gap-6 rounded items-start py-10 px-8 sm:w-9/12 md:w-96">
-            <h3 className="font-semibold"><b>Genre: </b><br/>{selectedQuestion?.category}</h3>
-            <h3 className="font-semibold"><b>Question: {currentQuestionIndex + 1}</b><br/>{selectedQuestion?.question}</h3>
-            <div className=" gap-2 w-full grid grid-cols-2">
-                {answers?.map(answer => {
+            }
+            , [quiz, currentQuestionIndex, setSelectedQuestion]);
 
-                    return (
-                        <div  className="flex justify-center text-center p-4 items-center bg-primary-600 hover:bg-primary-700 active:bg-secondary-700 text-white rounded font-semi-bold cursor-pointer"
-                              onClick={() => {
-                                  handleAnswer(answer)}
-                              }
-                        ><p>{answer.text.replace(/&quot;/g, '"').replace(/&#039;/g, "'")}</p>
-                        </div>
-                    )
-                })}
+        return (
+            <div
+                className="container  bg-secondary-50 flex flex-col justify-center gap-6 rounded items-start py-10 px-8 sm:w-9/12 md:w-96">
+                <h3 className="font-semibold"><b>Genre: </b><br/>{selectedQuestion?.category}</h3>
+                <h3 className="font-semibold">
+                    <b>Question: {currentQuestionIndex + 1}</b><br/>{selectedQuestion?.question}</h3>
+                <div className=" gap-2 w-full grid grid-cols-2">
+                    {answers?.map(answer => {
+
+                        return (
+                            <div
+                                className="flex justify-center text-center p-4 items-center bg-primary-600 hover:bg-primary-700 active:bg-secondary-700 text-white rounded font-semi-bold cursor-pointer"
+                                onClick={() => {
+                                    handleAnswer(answer)
+                                }
+                                }
+                            ><p>{answer.text.replace(/&quot;/g, '"').replace(/&#039;/g, "'")}</p>
+                            </div>
+                        )
+                    })}
+                </div>
             </div>
-            </div>
-    );
-}
+        );
+    }

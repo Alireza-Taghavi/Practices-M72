@@ -23,6 +23,7 @@ export default function Home() {
 
     const handleNumberOfQuestions = (e) => {
         setNumberOfQuestions(e.target.value);
+
     }
     React.useEffect(() => {
             axios.get("https://opentdb.com/api_category.php")
@@ -56,8 +57,8 @@ export default function Home() {
             return;
         }
         let URL = `https://opentdb.com/api.php?amount=${numberOfQuestions}&type=multiple`;
-        if (categoryValue.length === 1) {
-            URL += `&category=${categoryValue[0].id}`;
+        if (!!categoryValue) {
+            URL += `&category=${categoryValue.id}`;
         } else if (categoryValue.length > 1) {
             const nmb = numberOfQuestions;
             const len = categoryValue.length;
@@ -151,7 +152,6 @@ export default function Home() {
                     <label htmlFor="category-input" className={labelClasses}>Category</label>
                     <Select closeMenuOnSelect={true}
                             components={animatedComponents}
-                            defaultValue={[]}
                         // isMulti
                             isClearable
                             options={category}

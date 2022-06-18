@@ -2,18 +2,23 @@ import React, {useEffect} from 'react';
 import {Chart as ChartJS, ArcElement, Tooltip, Legend} from 'chart.js';
 import {Pie} from 'react-chartjs-2';
 import PieChart from "../components/PieChart";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 
 
 export default function Result() {
     const navigate = useNavigate();
 
-    const [correctAnswers, setCorrectAnswers] = React.useState(25);
-    const [totalQuestions, setTotalQuestions] = React.useState(30);
+    const [correctAnswers, setCorrectAnswers] = React.useState(0);
+    const [totalQuestions, setTotalQuestions] = React.useState(0);
     const [percentage, setPercentage] = React.useState(0);
+
+    const location = useLocation()
+    const {correctAnswer, quizLength} = location.state;
     useEffect(() => {
-        setPercentage((correctAnswers / totalQuestions * 100).toFixed(2));
-    }, [correctAnswers, totalQuestions]);
+        setCorrectAnswers(correctAnswer);
+        setTotalQuestions(quizLength);
+        setPercentage(Math.round((correctAnswer / quizLength) * 100));
+    }, []);
 
 
     const [data, setData] = React.useState({
@@ -21,7 +26,7 @@ export default function Result() {
         datasets: [
             {
                 label: "Statistics",
-                data: [correctAnswers, totalQuestions - correctAnswers],
+                data: [correctAnswer, quizLength - correctAnswer],
                 backgroundColor: [
                     '#9f1239',
                     '#fda4af'
@@ -32,6 +37,7 @@ export default function Result() {
                 ]
 
             }]
+
     });
 
     return (
@@ -40,15 +46,16 @@ export default function Result() {
 
             <h1 className="text-center font-extrabold text-2xl">Result</h1>
             <h1 className="text-center font-semibold text-xl">{percentage}%</h1>
-            <PieChart chartData={data} />
+            <PieChart chartData={data}/>
             <button onClick={
                 () => {
                     navigate("/", {});
                     setCorrectAnswers(0);
                 }
             }
-                className="w-full mt-5 h-10 px-6 font-semibold bg-primary-700 hover:bg-primary-800 active:bg-primary-600 rounded border border-slate-200 text-white "
-            >Retry</button>
+                    className="w-full mt-5 h-10 px-6 font-semibold bg-primary-700 hover:bg-primary-800 active:bg-primary-600 rounded border border-slate-200 text-white "
+            >Retry
+            </button>
         </div>
     );
 }
