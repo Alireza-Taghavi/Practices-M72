@@ -57,7 +57,8 @@ export default function Home() {
             return;
         }
         let URL = `https://opentdb.com/api.php?amount=${numberOfQuestions}&type=multiple`;
-        if (!!categoryValue) {
+
+        if (!categoryValue) {
             URL += `&category=${categoryValue.id}`;
         } else if (categoryValue.length > 1) {
             const nmb = numberOfQuestions;
@@ -65,7 +66,7 @@ export default function Home() {
             multipleCatgs({nmb, len});
             return;
         }
-        if (difficultyValue !== "Any Type") {
+        if (difficultyValue !== 'Any Type') {
             URL += `&difficulty=${difficultyValue.toLocaleLowerCase()}`;
         }
         fetchQuestions(URL)
