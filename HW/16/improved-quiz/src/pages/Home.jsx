@@ -57,8 +57,7 @@ export default function Home() {
             return;
         }
         let URL = `https://opentdb.com/api.php?amount=${numberOfQuestions}&type=multiple`;
-
-        if (!categoryValue) {
+         if (!!categoryValue.id) {
             URL += `&category=${categoryValue.id}`;
         } else if (categoryValue.length > 1) {
             const nmb = numberOfQuestions;
@@ -85,32 +84,23 @@ export default function Home() {
     const multipleCatgs = async ({nmb, len}) => {
         const divide = parseInt(nmb / len);
         let remaining = parseInt(nmb % len);
-        let newArr = [1];
+        let newArr = [];
         let diff = "";
         if (difficultyValue !== "Any Type") {
             diff = `&difficulty=${difficultyValue.toLocaleLowerCase()}`;
         }
-        categoryValue.map(async category => {
+        categoryValue.forEach(category => {
             const test = remaining;
             remaining = 0;
-            const response = await axios.get(`https://opentdb.com/api.php?amount=${(divide) + test}&type=multiple&category=${category.id}` + diff)
-            const res = await response.data.results;
-            res.forEach(question => {
-                newArr.push(question);
-            })
-            // .then(res => {
-            //     res.data.results.forEach(question => {
-            //         newArr.push(question);
-            //     })
-            // }).catch(err => {
-            //     console.log(err);
-            // })
+            axios.get(`https://opentdb.com/api.php?amount=${(divide) + test}&type=multiple&category=${category.id}` + diff)
+    .then(res => {
+        newArr = [...newArr, ...res.data.results];
+        setQuiz([...newArr]);
+        if (newArr.length === numberOfQuestions ){
+            navigateToQuestions();
+        }
+    })
         })
-
-        // const shuffled = await shuffle(newArr);
-        await setQuiz(newArr);
-        // navigate("/Questions", {state: {quiz: shuffled}});
-        await navigateToQuestions();
     }
 
     //shuffle array function
@@ -137,12 +127,13 @@ export default function Home() {
     const inputClasses = "flex text-black items-end gap-4 w-full w-full p-1 border border-gray-300 rounded h-10 px-2 focus:outline-none focus:border-blue-500 focus:border-2 focus:shadow-outline-blue";
     const labelClasses = " text-black-100 font-semibold text-l antialiased hover:subpixel-antialiased";
     return (
+
         <div
             className="flex flex-col gap-4 bg-secondary-50 text-white-100 rounded w-9-12 sm:w-9/12 md:w-96 drop-shadow-md py-8 px-6">
             <h1 className="flex justify-center  items-start font-medium text-slate-900 text-2xl mb-5">
                 Setup Quiz
             </h1>
-
+            {console.log(quiz)}
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-3">
                     <label htmlFor="number-input" className={labelClasses}>Number of Questions</label>
@@ -151,9 +142,9 @@ export default function Home() {
                 </div>
                 <div className="flex flex-col gap-3">
                     <label htmlFor="category-input" className={labelClasses}>Category</label>
-                    <Select closeMenuOnSelect={true}
+                    <Select closeMenuOnSelect={false}
                             components={animatedComponents}
-                        // isMulti
+                            isMulti
                             isClearable
                             options={category}
                             onChange={handleCategory}
