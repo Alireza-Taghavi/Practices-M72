@@ -57,7 +57,8 @@ export default function PersistentDrawerRight() {
                     }, ...(open && {display: 'none'})
                 }}
             >
-                <FilterAltIcon/>
+                <FilterAltIcon sx={{
+                    fontSize: '1.5rem',}}/>
             </IconButton>
 
             <Drawer
@@ -68,6 +69,7 @@ export default function PersistentDrawerRight() {
                     '& .MuiDrawer-paper': {
                         width: drawerWidth,
                         borderLeft: "none",
+                        backgroundColor: "gary.light"
                     },
                 }}
                 variant="persistent"
@@ -92,7 +94,7 @@ export default function PersistentDrawerRight() {
                             color: '#fff',
                         }
                     }}>
-                        <CloseRoundedIcon/>
+                        <CloseRoundedIcon />
                     </IconButton>
                 </DrawerHeader>
                 <Box sx={{

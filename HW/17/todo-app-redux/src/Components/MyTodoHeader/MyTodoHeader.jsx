@@ -1,10 +1,9 @@
 import {Box, TextField, Toolbar, Typography} from "@mui/material";
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
 import styled from "@emotion/styled";
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import React from "react"
 import MyTodoDrawer from "../MyTodoDrawer/MyTodoDrawer"
+import MyTodoModal from "../MyTodoModal/MyTodoModal";
 export default function MyTodoHeader() {
     const CssTextField = styled(TextField)({
         '& label.Mui-focused': {
@@ -28,16 +27,6 @@ export default function MyTodoHeader() {
             },
         },
     });
-    const buttonClasses = {
-            fontSize: '2rem',
-            cursor:"pointer",
-            color: '#c6c6c6',
-            '&:hover': {
-                color: '#fff',
-            }
-
-    }
-
     return (
         <Toolbar sx={{
             display: "flex",
@@ -58,7 +47,7 @@ export default function MyTodoHeader() {
                 <CssTextField size="small" label="🔍 Search" id="search-input" sx={{input: {color: 'white'}}}/>
 
                 <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", gap:"0.8rem"}}>
-                    <AddRoundedIcon sx={buttonClasses}/>
+                    <MyTodoModal />
                     <MyTodoDrawer />
                 </Box>
             </Box>

@@ -14,8 +14,10 @@ import {
 } from "@mui/material";
 import styled from "@emotion/styled";
 import DateInput from "../DateInput/DateInput"
+import AddRoundedIcon from '@mui/icons-material/AddRounded';
+import IconButton from "@mui/material/IconButton";
 
-const AirbnbSlider = styled(Slider)(({theme}) => ({
+const AirbnbSlider = styled(Slider)(() => ({
     height: '6.7rem !important',
     // padding: '13px 0',
     '& .MuiSlider-thumb': {
@@ -39,16 +41,6 @@ const AirbnbSlider = styled(Slider)(({theme}) => ({
     },
 }));
 
-function emojiSlider(props) {
-    const {children, ...other} = props;
-    return (
-        <SliderThumb {...other}>
-            {children}
-            <Typography>😴</Typography>
-        </SliderThumb>
-    );
-
-}
 
 const modalBox = {
     position: 'absolute',
@@ -83,9 +75,44 @@ export default function MyTodoModal() {
 
     const [isViewing, setViewing] = React.useState(false);
 
+    const [sliderValue, setSliderValue] = React.useState(10);
+    const handleSliderValue = (event, newValue) => {
+        setSliderValue(newValue);
+    }
+    function emojiSlider(props) {
+        const {children, ...other} = props;
+        let emoji;
+        if (sliderValue > 75) {
+            emoji = "🏃🏻‍♂️";
+        } else if (sliderValue > 25) {
+            emoji = "😃";
+        } else {
+            emoji = "😴";
+        }
+        return (
+            <SliderThumb {...other}>
+                {children}
+                <Typography>{emoji}</Typography>
+            </SliderThumb>
+        );
+
+    }
+
     return (
         <>
-            <Button sx={{color: "white"}} onClick={OpenModal}>Open</Button>
+            <IconButton onClick={OpenModal} sx={{
+                width: "32px",
+                height: "32px",
+                cursor: "pointer",
+                color: '#c6c6c6',
+                '&:hover': {
+                    color: '#fff',
+                }
+            }}>
+                <AddRoundedIcon sx={{
+                    fontSize: '2rem',
+                }}/>
+            </IconButton>
             <Modal
                 open={open}
                 onClose={closeModal}
@@ -102,10 +129,12 @@ export default function MyTodoModal() {
                                 borderBottom: "1px solid rgba(0, 0, 0, 0.4)",
                                 width: "100%",
                                 pb: "0.6rem",
-                            }}><Typography variant="h5">{isEditing ? (isViewing ? "View Task" : "Edit Task") : "New Task"}</Typography></Box>
+                            }}><Typography
+                                variant="h5">{isEditing ? (isViewing ? "View Task" : "Edit Task") : "New Task"}</Typography></Box>
                             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                                 <Box sx={{display: "flex", flexDirection: "column", gap: "1.5rem"}}>
-                                    <TextField disabled={isViewing} id="new-task-name-input" label="Task Name" variant="outlined"/>
+                                    <TextField disabled={isViewing} id="new-task-name-input" label="Task Name"
+                                               variant="outlined"/>
                                     <Box sx={{
                                         display: "flex",
                                         flexDirection: "row",
@@ -138,7 +167,8 @@ export default function MyTodoModal() {
                                                 components={{Thumb: emojiSlider}}
                                                 min={0}
                                                 max={100}
-                                                defaultValue={10}
+                                                value={sliderValue}
+                                                onChange={handleSliderValue}
                                                 orientation="vertical"
                                                 disabled={isViewing}
                                             />
@@ -146,7 +176,7 @@ export default function MyTodoModal() {
                                     </Box>
                                 </Box>
                                 <Box sx={{width: "40%", display: "flex", flexDirection: "column", gap: "1.5rem"}}>
-                                    <DateInput disabled={isViewing} />
+                                    <DateInput disabled={isViewing}/>
                                     <Box>
                                         <TextField
                                             disabled={isViewing}
@@ -166,7 +196,8 @@ export default function MyTodoModal() {
                                 <Typography sx={{opacity: "0.3"}}>*You are not going to do it anyway</Typography>
                                 <Box sx={{display: "flex", gap: 1}}>
                                     {isViewing ? null : <Button onClick={closeModal}>Cancel</Button>}
-                                    <Button variant="contained">{isEditing ? (isViewing ? "Ok" : "Update") : "Add"}</Button>
+                                    <Button
+                                        variant="contained">{isEditing ? (isViewing ? "Ok" : "Update") : "Add"}</Button>
                                 </Box>
                             </Box>
                         </Box>
