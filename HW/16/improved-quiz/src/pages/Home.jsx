@@ -48,7 +48,6 @@ export default function Home() {
         setDifficultyValue(e.label);
     }
     const handleSubmit = () => {
-        console.log({numberOfQuestions, categoryValue, difficultyValue});
         if (numberOfQuestions < 2 || numberOfQuestions > 50) {
             alert("Please enter a number between 2 and 50");
             return;
@@ -103,24 +102,6 @@ export default function Home() {
         })
     }
 
-    //shuffle array function
-    function shuffle(array) {
-        let currentIndex = array.length, randomIndex;
-
-        // While there remain elements to shuffle.
-        while (currentIndex !== 0) {
-
-            // Pick a remaining element.
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-
-            // And swap it with the current element.
-            [array[currentIndex], array[randomIndex]] = [
-                array[randomIndex], array[currentIndex]];
-        }
-        return array;
-    }
-
     const {quiz, setQuiz} = useContext(Context);
 
 
@@ -133,7 +114,6 @@ export default function Home() {
             <h1 className="flex justify-center  items-start font-medium text-slate-900 text-2xl mb-5">
                 Setup Quiz
             </h1>
-            {console.log(quiz)}
             <div className="flex flex-col gap-4">
                 <div className="flex flex-col gap-3">
                     <label htmlFor="number-input" className={labelClasses}>Number of Questions</label>
