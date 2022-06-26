@@ -5,7 +5,7 @@ import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
-import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
+import {FormControl, InputLabel, MenuItem, Select, Typography} from "@mui/material";
 
 const drawerWidth = 360;
 
@@ -80,10 +80,13 @@ export default function PersistentDrawerRight() {
                 <DrawerHeader sx={{
                     height: "73px",
                     display: "flex",
-                    flexDirection: "row-reverse",
+                    flexDirection: "row",
                     pr: "24px",
                     backgroundColor: "secondary.main",
+                    alignItems:"center",
+                    justifyContent:"space-between"
                 }}>
+                    <Typography color="white" variant="h6">Filter</Typography>
                     <IconButton onClick={handleDrawerClose} sx={{
                         width: "32px",
                         height: "32px",

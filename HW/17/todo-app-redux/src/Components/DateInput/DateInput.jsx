@@ -6,7 +6,6 @@ import {DatePicker} from '@mui/x-date-pickers/DatePicker';
 
 export default function DateInput({disabled}) {
     const [value, setValue] = React.useState(null);
-
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
             <DatePicker
@@ -14,7 +13,7 @@ export default function DateInput({disabled}) {
                 label="Deadline"
                 value={value}
                 onChange={(newValue) => {
-                    setValue(newValue);
+                    setValue(newValue.toISOString().slice(0, 10));
                 }}
                     renderInput={(params) => <TextField {...params} />}
             />

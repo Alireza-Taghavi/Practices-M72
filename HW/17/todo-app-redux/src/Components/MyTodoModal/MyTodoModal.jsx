@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import {
     Box,
     Button,
@@ -69,11 +69,12 @@ export default function MyTodoModal() {
     const reset = () => {
         setViewing(false);
         setEditing(false);
+        setSliderValue(10);
     }
 
     const [isEditing, setEditing] = React.useState(false);
-
     const [isViewing, setViewing] = React.useState(false);
+
 
     const [sliderValue, setSliderValue] = React.useState(10);
     const handleSliderValue = (event, newValue) => {
@@ -82,22 +83,38 @@ export default function MyTodoModal() {
     function emojiSlider(props) {
         const {children, ...other} = props;
         let emoji;
-        if (sliderValue > 75) {
+        let animation;
+        if (sliderValue > 80) {
             emoji = "🏃🏻‍♂️";
-        } else if (sliderValue > 25) {
-            emoji = "😃";
+            animation = "shake";
+        } else if (sliderValue > 35) {
+            emoji = "";
+            animation = "clock";
         } else {
-            emoji = "😴";
+            emoji = "";
+            animation= "tired";
         }
         return (
             <SliderThumb {...other}>
                 {children}
-                <Typography>{emoji}</Typography>
+                <Typography className={animation}>{emoji}</Typography>
             </SliderThumb>
         );
 
     }
 
+    const [sliderColor, setSliderColor] = React.useState("currentColor");
+    useEffect(()=>{
+        let color;
+        if (sliderValue > 80) {
+            color = "red";
+        } else if (sliderValue > 45) {
+            color = "secondary.main";
+        } else {
+            color = "secondary.light";
+        }
+        setSliderColor(color);
+    }, [sliderValue]);
     return (
         <>
             <IconButton onClick={OpenModal} sx={{
@@ -171,6 +188,11 @@ export default function MyTodoModal() {
                                                 onChange={handleSliderValue}
                                                 orientation="vertical"
                                                 disabled={isViewing}
+                                                sx={{
+                                                    '& .MuiSlider-track': {
+                                                        backgroundColor: sliderColor
+                                                    },
+                                                }}
                                             />
                                         </Box>
                                     </Box>
