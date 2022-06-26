@@ -187,7 +187,7 @@ export default function MyTodoList() {
 
     return (
         <Box sx={{width: '100%'}}>
-            <Paper sx={{width: '100%', mb: 2, borderRadius:"15% 15% 10px 10px"}}>
+            <Paper sx={{width: '100%', mb: 2, borderRadius:"60px 60px 10px 10px"}}>
                 <TableContainer>
                     <Table
                         sx={{minWidth: 750}}
