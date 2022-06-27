@@ -13,9 +13,13 @@ import {
     Slider, SliderThumb
 } from "@mui/material";
 import styled from "@emotion/styled";
-import DateInput from "../DateInput/DateInput"
 import AddRoundedIcon from '@mui/icons-material/AddRounded';
 import IconButton from "@mui/material/IconButton";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import {AdapterDateFns} from "@mui/x-date-pickers/AdapterDateFns";
+import {DatePicker} from "@mui/x-date-pickers/DatePicker";
+import {useDispatch, useSelector} from "react-redux";
+import {addTodo} from "../../redux/slices/todoSlices";
 
 const AirbnbSlider = styled(Slider)(() => ({
     height: '6.7rem !important',
@@ -57,6 +61,10 @@ const modalBox = {
 const modalInsider = {display: "flex", flexDirection: "column", alignItems: "start", justifyContent: "center"};
 
 export default function MyTodoModal() {
+    const {todos} = useSelector((store) => store.todos)
+    const dispatch = useDispatch();
+
+
     const [open, setOpen] = React.useState(false);
     const OpenModal = () => {
         setOpen(true);
@@ -66,12 +74,6 @@ export default function MyTodoModal() {
         reset();
     };
 
-    const reset = () => {
-        setViewing(false);
-        setEditing(false);
-        setSliderValue(10);
-    }
-
     const [isEditing, setEditing] = React.useState(false);
     const [isViewing, setViewing] = React.useState(false);
 
@@ -80,6 +82,7 @@ export default function MyTodoModal() {
     const handleSliderValue = (event, newValue) => {
         setSliderValue(newValue);
     }
+
     function emojiSlider(props) {
         const {children, ...other} = props;
         let emoji;
@@ -92,7 +95,7 @@ export default function MyTodoModal() {
             animation = "clock";
         } else {
             emoji = "";
-            animation= "tired";
+            animation = "tired";
         }
         return (
             <SliderThumb {...other}>
@@ -104,7 +107,7 @@ export default function MyTodoModal() {
     }
 
     const [sliderColor, setSliderColor] = React.useState("currentColor");
-    useEffect(()=>{
+    useEffect(() => {
         let color;
         if (sliderValue > 80) {
             color = "red";
@@ -115,6 +118,55 @@ export default function MyTodoModal() {
         }
         setSliderColor(color);
     }, [sliderValue]);
+
+    const [taskNameValue, setTaskNameValue] = React.useState("");
+
+    function handleTaskName(event) {
+        const input = event.target.value;
+        setTaskNameValue(input.charAt(0).toUpperCase() + input.slice(1))
+    }
+
+    const [statusValue, setStatusValue] = React.useState("todo");
+
+    function handleStatusValue(event) {
+        setStatusValue(event.target.value)
+    }
+
+    const [dateValue, setDateValue] = React.useState(null);
+
+    const [commentValue, setCommentValue] = React.useState("");
+
+    function handleComment(event) {
+        setCommentValue(event.target.value)
+    }
+
+    const reset = () => {
+        setViewing(false);
+        setEditing(false);
+        setSliderValue(10);
+        setCommentValue("");
+        setDateValue(null);
+        setTaskNameValue("");
+        setStatusValue("todo");
+    }
+
+    function handleSubmit() {
+        let priority;
+        if (sliderValue > 80) {
+            priority = "high";
+        } else if (sliderValue > 45) {
+            priority = "mid";
+        } else {
+            priority = "low";
+        }
+
+        dispatch(addTodo({
+                name: taskNameValue, priority, status: statusValue, deadline: dateValue ,commentValue
+            }))
+
+    }
+
+
     return (
         <>
             <IconButton onClick={OpenModal} sx={{
@@ -151,7 +203,7 @@ export default function MyTodoModal() {
                             <Box sx={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
                                 <Box sx={{display: "flex", flexDirection: "column", gap: "1.5rem"}}>
                                     <TextField disabled={isViewing} id="new-task-name-input" label="Task Name"
-                                               variant="outlined"/>
+                                               variant="outlined" value={taskNameValue} onChange={handleTaskName}/>
                                     <Box sx={{
                                         display: "flex",
                                         flexDirection: "row",
@@ -164,8 +216,9 @@ export default function MyTodoModal() {
                                             <FormLabel sx={{mb: 2}}
                                                        id="demo-radio-buttons-group-label">Status</FormLabel>
                                             <RadioGroup
-                                                aria-labelledby="demo-radio-buttons-group-label"
-                                                defaultValue="todo"
+                                                aria-labelledby="status-radio-buttons-group-label"
+                                                value={statusValue}
+                                                onChange={handleStatusValue}
                                                 name="radio-buttons-group">
                                                 <FormControlLabel value="todo" control={<Radio/>} label="👊🏻 Todo"/>
                                                 <FormControlLabel value="doing" control={<Radio/>} label="✍🏻 Doing"/>
@@ -198,7 +251,18 @@ export default function MyTodoModal() {
                                     </Box>
                                 </Box>
                                 <Box sx={{width: "40%", display: "flex", flexDirection: "column", gap: "1.5rem"}}>
-                                    <DateInput disabled={isViewing}/>
+                                    <LocalizationProvider dateAdapter={AdapterDateFns}>
+                                        <DatePicker
+                                            disabled={isViewing}
+                                            label="Deadline"
+                                            value={dateValue}
+                                            inputFormat="yyyy/dd/MM"
+                                            onChange={(newValue) => {
+                                                setDateValue(newValue.toISOString().slice(0, 10));
+                                            }}
+                                            renderInput={(params) => <TextField {...params} />}
+                                        />
+                                    </LocalizationProvider>
                                     <Box>
                                         <TextField
                                             disabled={isViewing}
@@ -207,6 +271,8 @@ export default function MyTodoModal() {
                                             multiline
                                             rows={6}
                                             variant="outlined"
+                                            value={commentValue}
+                                            onChange={handleComment}
                                         />
                                     </Box>
                                 </Box>
@@ -217,9 +283,9 @@ export default function MyTodoModal() {
                             }}>
                                 <Typography sx={{opacity: "0.3"}}>*You are not going to do it anyway</Typography>
                                 <Box sx={{display: "flex", gap: 1}}>
-                                    {isViewing ? null : <Button onClick={closeModal}>Cancel</Button>}
-                                    <Button
-                                        variant="contained">{isEditing ? (isViewing ? "Ok" : "Update") : "Add"}</Button>
+                                    {isViewing ? null : <Button onClick={closeModal}>Close</Button>}
+                                    <Button onClick={handleSubmit}
+                                            variant="contained">{isEditing ? (isViewing ? "Ok" : "Update") : "Add"}</Button>
                                 </Box>
                             </Box>
                         </Box>

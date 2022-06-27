@@ -72,7 +72,7 @@ export default function PersistentDrawerRight() {
                         backgroundColor: "gary.light"
                     },
                 }}
-                variant="persistent"
+                // variant="temporary"
                 anchor="right"
                 open={open}
 
@@ -81,7 +81,7 @@ export default function PersistentDrawerRight() {
                     height: "73px",
                     display: "flex",
                     flexDirection: "row",
-                    pr: "24px",
+                    px: "24px",
                     backgroundColor: "secondary.main",
                     alignItems:"center",
                     justifyContent:"space-between"

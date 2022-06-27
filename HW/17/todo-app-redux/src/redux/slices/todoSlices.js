@@ -7,17 +7,17 @@ const todoSlices = createSlice({
         targetTodo: null
     },
     reducers: {
-        changeTodos: (state, action) =>{
+        addTodo: (state, action) =>{
         state.todos = [...state.todos, action.payload]
         },
-        editTodo: (state, action)=>{
-            state.targetTodo = state.todos.findIndex(item => (item.id === action.payload));
-        },
-        updateTodo: (state, action) =>{
-            state.todos[state.targetTodo].name = action.payload;
-        }
+        // editTodo: (state, action)=>{
+        //     state.targetTodo = state.todos.findIndex(item => (item.id === action.payload));
+        // },
+        // updateTodo: (state, action) =>{
+        //     state.todos[state.targetTodo].name = action.payload;
+        // }
 
     }
 })
-export const {changeTodos, editTodo, updateTodo} = todoSlices.actions
+export const {addTodo} = todoSlices.actions
 export default todoSlices.reducer

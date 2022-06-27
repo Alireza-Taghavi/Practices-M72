@@ -12,6 +12,7 @@ export default function DateInput({disabled}) {
                 disabled={disabled}
                 label="Deadline"
                 value={value}
+                inputFormat="yyyy/dd/MM"
                 onChange={(newValue) => {
                     setValue(newValue.toISOString().slice(0, 10));
                 }}

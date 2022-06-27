@@ -1,8 +1,8 @@
 import React from 'react';
-import {Box} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import MyTodoHeader from "../Components/MyTodoHeader/MyTodoHeader";
 import {useDispatch, useSelector} from "react-redux";
-import {changeTodos, editTodo, updateTodo} from "../redux/slices/todoSlices";
+import {addTodo} from "../redux/slices/todoSlices";
 import MyTodoList from "../Components/MyTodoList/MyTodoList";
 
 export default function MainPage() {
@@ -33,7 +33,7 @@ export default function MainPage() {
             {/*<Button sx={{backgroundColor:"white"}} onClick={()=>{*/}
             {/*   dispatch(updateTodo("aaaaaaaaaaa"))*/}
             {/*}}>update</Button>*/}
-            <Box sx={{width: "90%", display:"flex", alignSelf:"center", pt:"4rem"}}>
+            <Box sx={{width: "90%", display:"flex", alignSelf:"center", py:"4rem"}}>
                 <MyTodoList/>
             </Box>
         </Box>
