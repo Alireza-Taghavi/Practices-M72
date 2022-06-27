@@ -17,26 +17,27 @@ import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import {useDispatch, useSelector} from "react-redux";
+import {useEffect} from "react";
 
-// function createData(name, priority, status, deadline) {
-//     return {
-//         name,
-//         priority,
-//         status,
-//         deadline,
-//     };
-// }
-//
-// let rows = [
-//     createData('do stuff', "high", "doing", "2022-12-09"),
-//     createData('Donut', "low", "doing", "2022-12-09"),
-//     createData('Eclair', "mid", "todo", "2022-12-09"),
-//     createData('Frozen yoghurt', "high", "doing", "2022-02-09"),
-//     createData('Gingerbread', "low", "todo", "2022-12-09"),
-//     createData('Honeycomb', "low", "done", "2022-01-09"),
-//     createData('Ice cream sandwich', "low", "todo", "2022-12-09"),
-//     createData('Jelly Bean', "mid", "done", "2022-12-09"),
-// ];
+function createData(name, priority, status, deadline) {
+    return {
+        name,
+        priority,
+        status,
+        deadline,
+    };
+}
+
+let rows = [
+    createData('do stuff', "high", "doing", "2022-12-09"),
+    createData('Donut', "low", "doing", "2022-12-09"),
+    createData('Eclair', "mid", "todo", "2022-12-09"),
+    createData('Frozen yoghurt', "high", "doing", "2022-02-09"),
+    createData('Gingerbread', "low", "todo", "2022-12-09"),
+    createData('Honeycomb', "low", "done", "2022-01-09"),
+    createData('Ice cream sandwich', "low", "todo", "2022-12-09"),
+    createData('Jelly Bean', "mid", "done", "2022-12-09"),
+];
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -170,7 +171,7 @@ const tableCellStyle = (value) => {
 export default function MyTodoList() {
     const {todos} = useSelector((store) => store.todos)
     const dispatch = useDispatch();
-    const rows = todos;
+
 
     const [order, setOrder] = React.useState('asc');
     const [orderBy, setOrderBy] = React.useState('');
@@ -219,7 +220,10 @@ export default function MyTodoList() {
                             rowCount={rows.length}
                          onSelectAllClick={()=>{}}/>
                         <TableBody>
-                            {rows?.sort(getComparator(order, orderBy))
+                            {console.log(rows.sort(getComparator(order, orderBy)))}
+                            {console.log(todos.sort(getComparator(order, orderBy)))}
+
+                            {rows.sort(getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (

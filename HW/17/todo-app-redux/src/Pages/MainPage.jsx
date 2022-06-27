@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Box, Typography} from "@mui/material";
 import MyTodoHeader from "../Components/MyTodoHeader/MyTodoHeader";
 import {useDispatch, useSelector} from "react-redux";
 import {addTodo} from "../redux/slices/todoSlices";
 import MyTodoList from "../Components/MyTodoList/MyTodoList";
-
+import TestList from "../Components/MyTodoList/TestList"
 export default function MainPage() {
     const {todos} = useSelector((store) => store.todos)
     const dispatch = useDispatch();
@@ -34,7 +34,8 @@ export default function MainPage() {
             {/*   dispatch(updateTodo("aaaaaaaaaaa"))*/}
             {/*}}>update</Button>*/}
             <Box sx={{width: "90%", display:"flex", alignSelf:"center", py:"4rem"}}>
-                <MyTodoList/>
+                {/*<MyTodoList/>*/}
+<TestList/>
             </Box>
         </Box>
     )
