@@ -5,7 +5,6 @@ import App from './App';
 import {createTheme, ThemeProvider} from "@mui/material";
 import {Provider} from 'react-redux';
 import store from "./redux/store"
-import { red } from '@mui/material/colors';
 
 const theme = createTheme({
     palette: {
@@ -24,7 +23,9 @@ const theme = createTheme({
             dark: '#8c8c8c',
             light: '#e0e0e0',
         },
-        red
+        red: {
+            main: '#ff0000'
+        }
     },
 });
 const root = ReactDOM.createRoot(document.getElementById('root'));

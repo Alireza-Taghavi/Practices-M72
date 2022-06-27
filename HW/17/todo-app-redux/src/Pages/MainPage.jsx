@@ -1,14 +1,9 @@
-import React, {useEffect} from 'react';
-import {Box, Typography} from "@mui/material";
+import React from 'react';
+import {Box} from "@mui/material";
 import MyTodoHeader from "../Components/MyTodoHeader/MyTodoHeader";
-import {useDispatch, useSelector} from "react-redux";
-import {addTodo} from "../redux/slices/todoSlices";
-import MyTodoList from "../Components/MyTodoList/MyTodoList";
-import TestList from "../Components/MyTodoList/TestList"
-export default function MainPage() {
-    const {todos} = useSelector((store) => store.todos)
-    const dispatch = useDispatch();
 
+import MyTodoList from "../Components/MyTodoList/MyTodoList";
+export default function MainPage() {
     return (
         <Box sx={{
             display: "flex",
@@ -18,24 +13,8 @@ export default function MainPage() {
             backgroundColor: "primary.main"
         }}>
             <MyTodoHeader/>
-            {/*<Button onClick={() => {*/}
-            {/*    dispatch(changeTodos({name: "test", id: Date.now()}))*/}
-            {/*}}>Add to Todos</Button>*/}
-            {/*{todos.map(todo => (*/}
-            {/*    <>*/}
-            {/*        <p key={todo.id}>*/}
-            {/*            {todo.name}*/}
-            {/*        </p>*/}
-            {/*        <Button onClick={() => {*/}
-            {/*        dispatch(editTodo(todo.id));*/}
-            {/*        }}>edit</Button></>*/}
-            {/*))}*/}
-            {/*<Button sx={{backgroundColor:"white"}} onClick={()=>{*/}
-            {/*   dispatch(updateTodo("aaaaaaaaaaa"))*/}
-            {/*}}>update</Button>*/}
             <Box sx={{width: "90%", display:"flex", alignSelf:"center", py:"4rem"}}>
-                {/*<MyTodoList/>*/}
-<TestList/>
+                <MyTodoList/>
             </Box>
         </Box>
     )

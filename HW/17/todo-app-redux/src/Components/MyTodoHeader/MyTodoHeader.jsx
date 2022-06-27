@@ -4,6 +4,8 @@ import styled from "@emotion/styled";
 import React from "react"
 import MyTodoDrawer from "../MyTodoDrawer/MyTodoDrawer"
 import MyTodoModal from "../MyTodoModal/MyTodoModal";
+import {useDispatch, useSelector} from "react-redux";
+import {setSearch} from "../../redux/slices/filterSlices"
 export default function MyTodoHeader() {
     const CssTextField = styled(TextField)({
         '& label.Mui-focused': {
@@ -27,6 +29,14 @@ export default function MyTodoHeader() {
             },
         },
     });
+
+
+    const dispatch = useDispatch();
+    const {search} = useSelector((store) => store.filterSlices)
+    const handleSearch = (event) => {
+        dispatch(setSearch(event.target.value))
+    }
+
     return (
         <Toolbar sx={{
             display: "flex",
@@ -44,7 +54,7 @@ export default function MyTodoHeader() {
                 <Typography sx={{fontWeight: "700", fontSize: "1.7rem"}}>WHAT 2 DO?</Typography>
             </Box>
             <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", gap:"2.5rem"}}>
-                <CssTextField size="small" label="🔍 Search" id="search-input" sx={{input: {color: 'white'}}}/>
+                <CssTextField onChange={handleSearch} value={search} size="small" label="🔍 Search" id="search-input" sx={{input: {color: 'white'}}}/>
 
                 <Box sx={{display: "flex", flexDirection: "row", alignItems: "center", gap:"0.8rem"}}>
                     <MyTodoModal />

@@ -12,32 +12,13 @@ import TableSortLabel from '@mui/material/TableSortLabel';
 import IconButton from '@mui/material/IconButton';
 import Paper from '@mui/material/Paper';
 import {visuallyHidden} from '@mui/utils';
-import {Typography} from "@mui/material";
+import {Tooltip, Typography} from "@mui/material";
 import RemoveRedEyeRoundedIcon from '@mui/icons-material/RemoveRedEyeRounded';
 import EditRoundedIcon from '@mui/icons-material/EditRounded';
 import DeleteRoundedIcon from '@mui/icons-material/DeleteRounded';
 import {useDispatch, useSelector} from "react-redux";
-import {useEffect} from "react";
-
-function createData(name, priority, status, deadline) {
-    return {
-        name,
-        priority,
-        status,
-        deadline,
-    };
-}
-
-let rows = [
-    createData('do stuff', "high", "doing", "2022-12-09"),
-    createData('Donut', "low", "doing", "2022-12-09"),
-    createData('Eclair', "mid", "todo", "2022-12-09"),
-    createData('Frozen yoghurt', "high", "doing", "2022-02-09"),
-    createData('Gingerbread', "low", "todo", "2022-12-09"),
-    createData('Honeycomb', "low", "done", "2022-01-09"),
-    createData('Ice cream sandwich', "low", "todo", "2022-12-09"),
-    createData('Jelly Bean', "mid", "done", "2022-12-09"),
-];
+import {setTodo, deleteTodo} from "../../redux/slices/todoSlices";
+import {setEdit, setView} from "../../redux/slices/modalSlices";
 
 function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -170,7 +151,28 @@ const tableCellStyle = (value) => {
 }
 export default function MyTodoList() {
     const {todos} = useSelector((store) => store.todos)
+    const {search, priorityFilter, statusFilter, timeFilter} = useSelector((store) => store.filterSlices)
     const dispatch = useDispatch();
+    const [rows, setRows] = React.useState([]);
+    React.useEffect(() => {
+        let newTodos = [...todos].filter(todo => (todo.name).includes(search))
+        if(priorityFilter !== "all"){
+            newTodos = [...newTodos].filter(todo => (todo.priority) === (priorityFilter))
+        }
+        if(statusFilter !== "all"){
+            newTodos = [...newTodos].filter(todo => (todo.status) === (statusFilter))
+        }
+        const currentTime = Date.now()
+        if(timeFilter === "overdue"){
+                newTodos = [...newTodos].filter(todo => (todo.id) > currentTime)
+        }else if(timeFilter === "future"){
+            newTodos = [...newTodos].filter(todo => ((todo.id) < (currentTime + 43200000)) && ((todo.id) > (currentTime - 43200000)))
+        }else{
+            newTodos = [...newTodos].filter(todo => (todo.id) < currentTime)
+        }
+
+        setRows([...newTodos])
+    }, [todos, search, priorityFilter, statusFilter, timeFilter])
 
 
     const [order, setOrder] = React.useState('asc');
@@ -185,10 +187,26 @@ export default function MyTodoList() {
         setOrderBy(property);
     };
 
-    const handleClick = (event, name) => {
-        console.log(name)
-
-    };
+    const handleEdit = (event, id) => {
+        dispatch(setEdit(true))
+        dispatch(setTodo(id))
+    }
+    const handleView = (event, id) => {
+        dispatch(setView(true))
+        dispatch(setTodo(id))
+    }
+    const handleDelete = (event, id) => {
+        // let target = event.target
+        // while(target.tagName !== "svg"){
+        //     target = target.parentElement;
+        // }
+        // target.style.display = "none"
+        // setTimeout(changeDelete(target), 0)
+        dispatch(deleteTodo(id))
+    }
+    // const changeDelete = (target) => {
+    //     setTimeout(()=>{target.child.style.display = "flex"}, 5000)
+    // }
 
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -218,18 +236,15 @@ export default function MyTodoList() {
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                             rowCount={rows.length}
-                         onSelectAllClick={()=>{}}/>
+                            onSelectAllClick={() => {
+                            }}/>
                         <TableBody>
-                            {console.log(rows.sort(getComparator(order, orderBy)))}
-                            {console.log(todos.sort(getComparator(order, orderBy)))}
-
                             {rows.sort(getComparator(order, orderBy))
                                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                                 .map((row) => {
                                     return (
                                         <TableRow
                                             hover
-                                            onClick={(event) => handleClick(event, row.name)}
                                             role="checkbox"
                                             tabIndex={-1}
                                             key={row.name}
@@ -264,17 +279,28 @@ export default function MyTodoList() {
                                                     display: "flex",
                                                     flexGrow: "1",
                                                     alignItems: "center",
-                                                    justifyContent: "center"
+                                                    justifyContent: "center",
+                                                    pl: "10%"
                                                 }}>
-                                                    <IconButton>
-                                                        <RemoveRedEyeRoundedIcon/>
-                                                    </IconButton>
-                                                    <IconButton color="warning">
-                                                        <EditRoundedIcon/>
-                                                    </IconButton>
-                                                    <IconButton color="error">
-                                                        <DeleteRoundedIcon/>
-                                                    </IconButton>
+                                                    <Tooltip placement="top" title="View" arrow>
+                                                        <IconButton onClick={(event) => handleView(event, row.id)}>
+                                                            <RemoveRedEyeRoundedIcon/>
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip placement="top" title="Edit" arrow>
+                                                        <IconButton color="warning"
+                                                                    onClick={(event) => handleEdit(event, row.id)}
+                                                        >
+                                                            <EditRoundedIcon/>
+                                                        </IconButton>
+                                                    </Tooltip>
+                                                    <Tooltip placement="top" title="Delete" arrow>
+                                                        <IconButton color="error"
+                                                                    onClick={(event) => handleDelete(event, row.id)}
+                                                        >
+                                                            <DeleteRoundedIcon/>
+                                                        </IconButton>
+                                                    </Tooltip>
                                                 </Box>
                                             </TableCell>
                                         </TableRow>

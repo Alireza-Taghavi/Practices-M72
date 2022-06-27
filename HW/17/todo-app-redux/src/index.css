@@ -112,3 +112,21 @@ th:first-of-type {
 th:last-of-type {
     border-top-right-radius: 10px;
 }
+
+.delete{
+    animation:rotation 0.5s linear ;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(360deg);
+        opacity: 0;
+    }
+}
+.display-none {
+    display: none;
+}

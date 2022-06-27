@@ -6,7 +6,8 @@ import IconButton from '@mui/material/IconButton';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import CloseRoundedIcon from '@mui/icons-material/CloseRounded';
 import {FormControl, InputLabel, MenuItem, Select, Typography} from "@mui/material";
-
+import {useDispatch} from "react-redux";
+import {setPriorityFilter, setStatusFilter, setTimeFilter} from "../../redux/slices/filterSlices"
 const drawerWidth = 360;
 
 const DrawerHeader = styled('div')(({theme}) => ({
@@ -19,7 +20,7 @@ const DrawerHeader = styled('div')(({theme}) => ({
 
 export default function PersistentDrawerRight() {
     const [open, setOpen] = React.useState(false);
-
+    const dispatch = useDispatch();
     const handleDrawerOpen = () => {
         setOpen(true);
     };
@@ -31,16 +32,19 @@ export default function PersistentDrawerRight() {
     const [priority, setPriority] = React.useState('all');
     const handlePriority = (event) => {
         setPriority(event.target.value);
+        dispatch(setPriorityFilter(event.target.value))
     };
 
     const [status, setStatus] = React.useState('all');
     const handleStatus = (event) => {
         setStatus(event.target.value);
+        dispatch(setStatusFilter(event.target.value))
     };
 
     const [time, setTime] = React.useState('all');
     const handleTime = (event) => {
         setTime(event.target.value);
+        dispatch(setTimeFilter(event.target.value))
     };
     return (<Box sx={{width: "32px"}}>
             <IconButton
@@ -110,7 +114,7 @@ export default function PersistentDrawerRight() {
                     gap:4
                 }}>
                     <FormControl sx={{width: "70%"}}>
-                        <InputLabel id="priority-select-label">Age</InputLabel>
+                        <InputLabel id="priority-select-label">Priority</InputLabel>
                         <Select
                             labelId="priority-select-label"
                             id="priority-select"
