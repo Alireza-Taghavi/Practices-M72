@@ -124,7 +124,7 @@ export default function PersistentDrawerRight() {
                         >
                             <MenuItem value={"all"}>All</MenuItem>
                             <MenuItem value={"low"}>Low</MenuItem>
-                            <MenuItem value={"medium"}>Medium</MenuItem>
+                            <MenuItem value={"mid"}>Medium</MenuItem>
                             <MenuItem value={"high"}>High</MenuItem>
                         </Select>
                     </FormControl>
