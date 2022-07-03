@@ -5,6 +5,9 @@ export interface Post {
     author: {
         name: string;
         image: string;
+        slug: {
+            current: string;
+        }
     },
     description: string;
     mainImage: {
