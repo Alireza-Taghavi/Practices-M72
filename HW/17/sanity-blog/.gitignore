@@ -36,3 +36,5 @@ yarn-error.log*
 
 # typescript
 *.tsbuildinfo
+sanity-blog/node_modules
+sanity-blog/dist
