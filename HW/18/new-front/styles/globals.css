@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #__next{
+  height: 100%;
+  width: 100%;
+  background-color: #232A3B;
+}
+input[type="text"]{
+  outline: none;
+  border: 3px solid #232A3B;
+}
+input[type="text"]:focus {
+  border: 3px solid #396A9B;
+}
+textarea{
+  border: 3px solid #232A3B;
+  outline: none;
+}
+textarea:focus {
+  outline: none;
+  border: 3px solid #396A9B;
+}
+select{
+  outline: none;
+  border: 3px solid #232A3B;
+}
+select:focus {
+  outline: none;
+  border: 3px solid #396A9B;
+}
+
+.scroll{
+  overflow: auto;
+  /*white-space: nowrap;*/
+}
+.bell:hover{
+  background-color: rgba(255, 255, 255, 0.1);
+}
+.shake{
+  animation: shake 2s;
+  animation-iteration-count: infinite;
+}
+@keyframes shake {
+  25% {transform: rotate(45deg);}
+  75% {transform: rotate(-45deg);}
+}
